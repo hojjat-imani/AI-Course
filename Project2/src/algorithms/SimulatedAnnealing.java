@@ -2,7 +2,6 @@ package algorithms;
 
 import problems.Problem;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,33 +11,33 @@ public class SimulatedAnnealing {
     Problem problem; //the problem to solve
     Schedule schedule; //a mapping between time and temperature
     Problem.State currentState;
-    LinkedList<Problem.State> path;
     int visitedNodes;
     int expandedNodes;
 
+    //stuff used fro printing progress
+    float startT;
+    int progress;
+
     public interface Schedule {
-        int getTemperature(int time);
+        float getTemperature(int time);
     }
 
     public SimulatedAnnealing(Problem problem, Schedule schedule) {
         this.problem = problem;
         this.schedule = schedule;
-        path = new LinkedList<>();
     }
 
     public void solve() {
-        int T;
+        float T;
         int deltaE;
         Problem.State nextState;
         List<? extends Problem.State> successors;
-        nextState = currentState = problem.getInitialState();
-        System.out.println("initial state:" + currentState);
-        System.out.println("initial state value:" + problem.getValue(currentState));
-        for (int time = 0; true; time++) {
-            if (currentState == nextState)
-                path.add(currentState);
+        currentState = problem.getInitialState();
+        printStart();
+        for (int time = 1; true; time++) {
             T = schedule.getTemperature(time);
-            if (T == 0)
+            printProgress(T);
+            if (T <= 0)
                 break;
             successors = problem.getSuccessors(currentState);
             nextState = random(successors);
@@ -55,10 +54,25 @@ public class SimulatedAnnealing {
         printResult();
     }
 
-    private double getProbability(int T, int deltaE) {
-        double d = Math.pow(Math.E, (float) deltaE / T);
-//        System.out.println("T=" + T + "  de=" + deltaE + "    p=" + d);
-        return d;
+    private void printStart() {
+        System.out.println("Initial Value = " + problem.getValue(currentState) + "\n" + currentState);
+        System.out.println("Running...");
+        for (int i = 0; i < 50; i++)
+            System.out.print("\"");
+        System.out.println();
+        startT = schedule.getTemperature(1);
+    }
+
+    private void printProgress(float t) {
+        if ((int) ((1 - t / startT) * 50) > progress) {
+            for (int i = 0; i < (int) ((1 - t / startT) * 50) - progress; i++)
+                System.out.print("\"");
+            progress = (int) ((1 - t / startT) * 50);
+        }
+    }
+
+    private double getProbability(float T, int deltaE) {
+        return Math.exp(deltaE / T);
     }
 
     private <T> T random(List<T> items) {
@@ -70,12 +84,36 @@ public class SimulatedAnnealing {
     }
 
     public void printResult() {
-        System.out.println("SimulatedAnnealing Output <<");
+        printProgress(0);
+        System.out.println("\n\n");
         System.out.println("#VisitedNodes     =    " + visitedNodes);
         System.out.println("#ExpandedNodes    =     " + expandedNodes);
-        System.out.println("solution: " + currentState);
-        System.out.println("solution value:" + problem.getValue(currentState));
-//        System.out.println("Path:" + path);
-        System.out.println("SimulatedAnnealing Output >>");
+        System.out.println("solution value:" + problem.getValue(currentState) + "\n" + currentState);
+    }
+
+    public static class StabilizerSchedule implements Schedule {
+        float stabilizer = 35f;
+        float stabilizeFactor = 1.005f;
+        float T = 35;
+        float coolingFactor = 0.05f;
+
+        public StabilizerSchedule() {
+        }
+
+        public StabilizerSchedule(float stabilizer, float stabilizeFactor, float t, float coolingFactor) {
+            this.stabilizer = stabilizer;
+            this.stabilizeFactor = stabilizeFactor;
+            T = t;
+            this.coolingFactor = coolingFactor;
+        }
+
+        @Override
+        public float getTemperature(int time) {
+            if (time % (int) stabilizer == 0) {
+                T -= coolingFactor;
+                stabilizer *= stabilizeFactor;
+            }
+            return T;
+        }
     }
 }
