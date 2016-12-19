@@ -25,6 +25,11 @@ public class EightQueens implements Problem {
     }
 
     @Override
+    public boolean isGoal(Problem.State s) {
+        return getValue(s) == 0;
+    }
+
+    @Override
     public Problem.State getInitialState() {
         return State.newRandom(pruneBadStates);
     }

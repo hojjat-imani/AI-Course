@@ -1,7 +1,13 @@
 import algorithms.FirstChoiceHillClimbing;
+import algorithms.RandomRestartHillClimbing;
 import algorithms.SimulatedAnnealing;
 import algorithms.StochasticHillClimbing;
 import problems.EightQueens;
+import problems.Problem;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by hojjatimani on 12/16/2016 AD.
@@ -10,7 +16,8 @@ public class Main {
     public static void main(String[] args) {
 //        sa3();
 //        stochasticHillClimbing();
-        firstChoiceHillClimbing();
+//        firstChoiceHillClimbing();
+//        randomRestartHillClimbing();
     }
 
     public static void sa1() {
@@ -40,5 +47,9 @@ public class Main {
 
     private static void firstChoiceHillClimbing() {
         new FirstChoiceHillClimbing(new EightQueens(false)).solve();
+    }
+
+    private static void randomRestartHillClimbing() {
+        new RandomRestartHillClimbing(new EightQueens(false)).solve();
     }
 }

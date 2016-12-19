@@ -13,6 +13,8 @@ public interface Problem {
 
     int getValue(State s);
 
+    boolean isGoal(State s);
+
     State getInitialState();
 
     List<? extends State> getSuccessors(State state);

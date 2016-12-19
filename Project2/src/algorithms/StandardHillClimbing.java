@@ -11,13 +11,11 @@ import java.util.List;
 public class StandardHillClimbing {
     Problem problem;
     Problem.State currentState;
-    LinkedList<Problem.State> path;
     int visitedNodes = 1;
     int expandedNodes = 1;
 
     public StandardHillClimbing(Problem problem) {
         this.problem = problem;
-        this.path = new LinkedList<>();
     }
 
     public void solve() {
@@ -25,7 +23,6 @@ public class StandardHillClimbing {
         System.out.println("initial state= " + currentState);
         System.out.println("initial value=" + problem.getValue(currentState));
         while (true) {
-            path.add(currentState);
             System.out.println("val=" + problem.getValue(currentState));
             List<? extends Problem.State> successors = problem.getSuccessors(currentState);
             visitedNodes += successors.size();
