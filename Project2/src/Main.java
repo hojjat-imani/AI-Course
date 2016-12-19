@@ -1,4 +1,5 @@
 import algorithms.SimulatedAnnealing;
+import algorithms.StochasticHillClimbing;
 import problems.EightQueens;
 
 /**
@@ -6,25 +7,8 @@ import problems.EightQueens;
  */
 public class Main {
     public static void main(String[] args) {
-        sa3();
-
-//        new SimulatedAnnealing(new EightQueens(), time -> {
-//            if (time == 0)
-//                time++;
-//            return (int) (10000 / Math.pow(time, 2));
-//        }).solve();
-
-
-//        new SimulatedAnnealing(new EightQueens(), time -> (int) (100 / (1 + Math.pow(1 + time, 0.35)))).solve();
-
-//        new SimulatedAnnealing(new EightQueens(), new SimulatedAnnealing.Schedule() {
-//            @Override
-//            public int getTemperature(int time) {
-//                return (int) Math.abs((1000000000 * Math.sin(time + 1) / time + 1));
-//            }
-//        }).solve();
-
-//        new StandardHillClimbing(new EightQueens()).solve();
+//        sa3();
+        stochasticHillClimbing();
     }
 
     public static void sa1() {
@@ -46,5 +30,9 @@ public class Main {
     }
 
     public static void sa5() {
+    }
+
+    public static void stochasticHillClimbing() {
+        new StochasticHillClimbing(new EightQueens(false)).solve();
     }
 }
