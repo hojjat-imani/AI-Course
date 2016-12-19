@@ -1,3 +1,4 @@
+import algorithms.FirstChoiceHillClimbing;
 import algorithms.SimulatedAnnealing;
 import algorithms.StochasticHillClimbing;
 import problems.EightQueens;
@@ -8,7 +9,8 @@ import problems.EightQueens;
 public class Main {
     public static void main(String[] args) {
 //        sa3();
-        stochasticHillClimbing();
+//        stochasticHillClimbing();
+        firstChoiceHillClimbing();
     }
 
     public static void sa1() {
@@ -32,7 +34,11 @@ public class Main {
     public static void sa5() {
     }
 
-    public static void stochasticHillClimbing() {
+    private static void stochasticHillClimbing() {
         new StochasticHillClimbing(new EightQueens(false)).solve();
+    }
+
+    private static void firstChoiceHillClimbing() {
+        new FirstChoiceHillClimbing(new EightQueens(false)).solve();
     }
 }
