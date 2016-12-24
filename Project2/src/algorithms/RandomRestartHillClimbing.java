@@ -27,8 +27,10 @@ public class RandomRestartHillClimbing {
     }
 
     public void solve() {
+        Problem.State currentState = problem.getInitialState();
+        System.out.println("initial state:" + currentState);
+        System.out.println("initial value:" + problem.getValue(currentState));
         for (int i = 0; steps == null || i < steps; i++) {
-            Problem.State currentState = problem.getInitialState();
             while (true) {
                 List<? extends Problem.State> successors = problem.getSuccessors(currentState);
                 visitedNodes += successors.size();
@@ -42,6 +44,7 @@ public class RandomRestartHillClimbing {
                 bestAnswer = currentState;
             if (problem.isGoal(bestAnswer))
                 break;
+            currentState = problem.getInitialState();
         }
         printResult();
     }

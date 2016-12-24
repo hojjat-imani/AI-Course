@@ -1,7 +1,4 @@
-import algorithms.FirstChoiceHillClimbing;
-import algorithms.RandomRestartHillClimbing;
-import algorithms.SimulatedAnnealing;
-import algorithms.StochasticHillClimbing;
+import algorithms.*;
 import problems.EightQueens;
 import problems.Problem;
 
@@ -14,7 +11,10 @@ import java.util.List;
  */
 public class Main {
     public static void main(String[] args) {
+        sa1();
+//        sa2();
 //        sa3();
+//        standardHillClimbing();
 //        stochasticHillClimbing();
 //        firstChoiceHillClimbing();
 //        randomRestartHillClimbing();
@@ -22,12 +22,12 @@ public class Main {
 
     public static void sa1() {
         //linear schedule
-        new SimulatedAnnealing(new EightQueens(false), time -> 10000 - time).solve();
+        new SimulatedAnnealing(new EightQueens(false), time -> 100000 - time).solve();
     }
 
     public static void sa2() {
         //linear schedule
-        new SimulatedAnnealing(new EightQueens(false), time -> 10000 / time).solve();
+        new SimulatedAnnealing(new EightQueens(false), time -> 100000 / time).solve();
     }
 
     public static void sa3() {
@@ -35,10 +35,8 @@ public class Main {
         new SimulatedAnnealing(new EightQueens(false), new SimulatedAnnealing.StabilizerSchedule()).solve();
     }
 
-    public static void sa4() {
-    }
-
-    public static void sa5() {
+    private static void standardHillClimbing() {
+        new StandardHillClimbing(new EightQueens(false)).solve();
     }
 
     private static void stochasticHillClimbing() {
