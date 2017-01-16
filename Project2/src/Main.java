@@ -1,5 +1,6 @@
 import algorithms.*;
 import problems.EightQueens;
+import problems.Equation;
 import problems.Problem;
 
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.List;
 public class Main {
     /**
      * uncomment each line to run specific algorithm
-     *
      */
     public static void main(String[] args) {
 //        sa1();
@@ -22,6 +22,7 @@ public class Main {
 //        stochasticHillClimbing();
 //        firstChoiceHillClimbing();
 //        randomRestartHillClimbing();
+//        genetic();
     }
 
     public static void sa1() {
@@ -53,5 +54,9 @@ public class Main {
 
     private static void randomRestartHillClimbing() {
         new RandomRestartHillClimbing(new EightQueens(false)).solve();
+    }
+
+    private static void genetic() {
+        new Genetic(new Equation(), 20).solve();
     }
 }
